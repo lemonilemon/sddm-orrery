@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=Orrery
+Description=The inner planets at their real positions, seen from Earth
+Author=lemonilemon
+Website=https://github.com/lemonilemon/sddm-orrery
+License=MIT
+Type=sddm-theme
+Version=0.1.0
+ConfigFile=theme.conf
+MainScript=Main.qml
+Theme-Id=orrery
+Theme-API=2.0
+QtVersion=6
