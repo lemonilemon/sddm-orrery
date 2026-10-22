@@ -65,6 +65,9 @@ Font="IBM Plex Sans"
 LabelFont="IBM Plex Mono"
 OsLabel=""
 ShowAllPowerButtons="false"
+TwelveHourClock="false"
+Viewpoint="earth"
+Intro="true"
 ```
 
 Keep the quotes: SDDM reads an unquoted value with a comma in it as a list.
@@ -92,6 +95,9 @@ under the key in the second column.
 | `osLabel` | `OsLabel` | `""` | Text in the bottom-left corner; empty hides it |
 | `hostLabel` | `HostLabel` | `null` | Text beside the mark in the top-left corner; `null` leaves the key out and shows the hostname, empty hides it |
 | `showAllPowerButtons` | `ShowAllPowerButtons` | `false` | Show every power button even when SDDM reports it unavailable |
+| `twelveHourClock` | `TwelveHourClock` | `false` | Show the clock as 2:04 with AM or PM beside it instead of 02:04 |
+| `viewpoint` | `Viewpoint` | `"earth"` | Body the orrery is seen from at login: `"sun"`, `"venus"`, `"earth"` or `"mars"` |
+| `intro` | `Intro` | `true` | Draw the last five years of paths in on load; `false` shows them already drawn |
 
 ## Preview
 

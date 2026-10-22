@@ -14,6 +14,7 @@ Rectangle {
     readonly property string textFont: config.Font
     readonly property string labelFont: config.LabelFont
     readonly property bool showAllPowerButtons: String(config.ShowAllPowerButtons) === "true"
+    readonly property bool twelveHourClock: String(config.TwelveHourClock) === "true"
 
     property date now: new Date()
     property bool failed: false
@@ -89,6 +90,8 @@ Rectangle {
             centerX: parent.width * 0.6458
             centerY: parent.height / 2
             auPixels: 210 * root.unit
+            viewpoint: config.Viewpoint || "earth"
+            intro: String(config.Intro) !== "false"
         }
     }
 
@@ -144,16 +147,29 @@ Rectangle {
         }
 
         Text {
+            id: clock
             y: Math.round(parent.height * 0.163)
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            text: Qt.formatTime(root.now, "HH:mm")
+            text: root.twelveHourClock ? (root.now.getHours() % 12 || 12) + Qt.formatTime(root.now, ":mm")
+                : Qt.formatTime(root.now, "HH:mm")
             color: root.ink
             font.family: root.textFont
             font.weight: Font.Medium
             font.pixelSize: 132 * root.unit
             font.letterSpacing: -4 * root.unit
             font.features: ({ "tnum": 1 })
+        }
+
+        Text {
+            visible: root.twelveHourClock
+            x: Math.round((clock.width + clock.contentWidth) / 2 + 12 * root.unit)
+            anchors.baseline: clock.baseline
+            text: root.now.getHours() < 12 ? "AM" : "PM"
+            color: root.body
+            font.family: root.textFont
+            font.weight: Font.Medium
+            font.pixelSize: 22 * root.unit
         }
 
         Text {

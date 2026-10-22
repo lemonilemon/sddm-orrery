@@ -7,6 +7,9 @@
   osLabel ? "",
   hostLabel ? null,
   showAllPowerButtons ? false,
+  twelveHourClock ? false,
+  viewpoint ? "earth",
+  intro ? true,
 }:
 let
   fonts = ibm-plex.override {
@@ -34,10 +37,19 @@ let
       // {
         OsLabel = osLabel;
         ShowAllPowerButtons = lib.boolToString showAllPowerButtons;
+        TwelveHourClock = lib.boolToString twelveHourClock;
+        Viewpoint = viewpoint;
+        Intro = lib.boolToString intro;
       }
       // lib.optionalAttrs (hostLabel != null) { HostLabel = hostLabel; };
   };
 in
+assert lib.assertOneOf "viewpoint" viewpoint [
+  "sun"
+  "venus"
+  "earth"
+  "mars"
+];
 stdenvNoCC.mkDerivation {
   pname = "sddm-theme-orrery";
   version = "0.1.0";

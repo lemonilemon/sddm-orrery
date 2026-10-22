@@ -9,18 +9,20 @@ Item {
     property real centerX: width / 2
     property real centerY: height / 2
     property real auPixels: 210
+    property string viewpoint: "earth"
 
     readonly property real today: Ephemeris.yearsSinceJ2000(new Date())
-    property real t: today - 5
-    property real span: 0
+    property real t: intro ? today - 5 : today
+    property real span: intro ? 0 : 5
     property bool intro: true
     property bool playing: false
-    property string from: "earth"
-    property string to: "earth"
+    property string from: start
+    property string to: start
     property real k: 1
     property var positions: ({})
 
     readonly property var bodies: ["sun", "venus", "earth", "mars"]
+    readonly property string start: bodies.indexOf(viewpoint) >= 0 ? viewpoint : "earth"
     readonly property var sparkScale: ({ sun: 2.6, venus: 1.4, earth: 1.5, mars: 1.4 })
     readonly property var names: ({ sun: "the Sun", venus: "Venus", earth: "Earth", mars: "Mars" })
     readonly property string caption: "Seen from " + names[to] + " · "
