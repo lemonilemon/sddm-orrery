@@ -3,6 +3,8 @@
   makeFontsConf,
   sway,
   grim,
+  util-linux,
+  procps,
   kdePackages,
   theme,
 }:
@@ -14,6 +16,8 @@ writeShellApplication {
   runtimeInputs = [
     sway
     grim
+    util-linux
+    procps
   ];
   text = ''
     out=$(realpath -m "''${1:-orrery-preview.png}")
@@ -27,10 +31,11 @@ writeShellApplication {
 
     cat > "$work/run" <<EOF
     #!/bin/sh
-    ${kdePackages.sddm}/bin/sddm-greeter-qt6 --test-mode --theme "$work/theme" > "$work/greeter.log" 2>&1 &
+    # SDDM logs to the journal unless stderr is a terminal, so give it one.
+    script -qfec '${kdePackages.sddm}/bin/sddm-greeter-qt6 --test-mode --theme "$work/theme"' /dev/null > "$work/greeter.log" 2>&1 &
     sleep $wait
     grim -o HEADLESS-1 "$out"
-    kill \$!
+    pkill -P \$!
     swaymsg exit
     EOF
     chmod +x "$work/run"
@@ -42,11 +47,13 @@ writeShellApplication {
     exec "$work/run"
     EOF
 
-    env -u WAYLAND_DISPLAY -u DISPLAY \
+    # The real greeter doesn't inherit the desktop's Qt settings, such as its scale factor or
+    # platform theme, so neither does this one.
+    env -i PATH="$PATH" HOME="$HOME" XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" LANG=C.UTF-8 \
       FONTCONFIG_FILE=${fontsConf} WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 \
       sway -c "$work/sway.conf" > "$work/sway.log" 2>&1 || true
 
-    cat "$work/greeter.log" >&2
+    tr -d '\r' < "$work/greeter.log" >&2
     [ -s "$out" ] || { echo "no screenshot; sway log:" >&2; cat "$work/sway.log" >&2; exit 1; }
     echo "$out"
   '';
