@@ -361,7 +361,7 @@ Rectangle {
 
         Text {
             anchors.verticalCenter: parent.verticalCenter
-            text: sddm.hostName
+            text: config.HostLabel === undefined ? sddm.hostName : config.HostLabel
             color: root.ink
             font.family: root.textFont
             font.weight: Font.Medium

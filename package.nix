@@ -5,6 +5,7 @@
   fontconfig,
   ibm-plex,
   osLabel ? "",
+  hostLabel ? null,
   showAllPowerButtons ? false,
 }:
 let
@@ -21,10 +22,13 @@ let
   };
 
   themeConf = (formats.ini { }).generate "theme.conf" {
-    General = families // {
-      OsLabel = osLabel;
-      ShowAllPowerButtons = lib.boolToString showAllPowerButtons;
-    };
+    General =
+      families
+      // {
+        OsLabel = osLabel;
+        ShowAllPowerButtons = lib.boolToString showAllPowerButtons;
+      }
+      // lib.optionalAttrs (hostLabel != null) { HostLabel = hostLabel; };
   };
 in
 stdenvNoCC.mkDerivation {
