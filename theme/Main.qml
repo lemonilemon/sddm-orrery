@@ -179,7 +179,6 @@ Rectangle {
                 rule: root.ruleStrong
                 textFont: root.textFont
                 labelFont: root.labelFont
-                KeyNavigation.tab: passwordField
                 onAccepted: passwordField.forceActiveFocus()
             }
 
@@ -195,7 +194,6 @@ Rectangle {
                 rule: root.ruleStrong
                 textFont: root.textFont
                 labelFont: root.labelFont
-                KeyNavigation.backtab: userField
                 onAccepted: root.login()
                 onTextChanged: if (text.length > 0) root.failed = false
 
@@ -223,7 +221,7 @@ Rectangle {
                     color: "transparent"
                     radius: 2 * root.unit
                     border.width: 1
-                    border.color: loginArea.containsMouse ? root.ink : root.ruleStrong
+                    border.color: loginArea.lit ? root.ink : root.ruleStrong
 
                     Text {
                         anchors.centerIn: parent
@@ -234,12 +232,10 @@ Rectangle {
                         font.letterSpacing: 1.5 * root.unit
                     }
 
-                    MouseArea {
+                    HitArea {
                         id: loginArea
                         anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: root.login()
+                        onTriggered: root.login()
                     }
                 }
             }
@@ -307,7 +303,7 @@ Rectangle {
                 Text {
                     id: sessionLabel
                     text: ("Session · " + root.sessionName).toUpperCase()
-                    color: sessionArea.containsMouse ? root.ink : root.muted
+                    color: sessionArea.lit ? root.ink : root.muted
                     font.family: root.labelFont
                     font.pixelSize: 12 * root.unit
                     font.letterSpacing: 0.96 * root.unit
@@ -318,17 +314,15 @@ Rectangle {
                     y: sessionLabel.baselineOffset + 5 * root.unit
                     width: parent.width
                     height: 1
-                    color: sessionArea.containsMouse ? root.ink : root.ruleStrong
+                    color: sessionArea.lit ? root.ink : root.ruleStrong
                 }
 
-                MouseArea {
+                HitArea {
                     id: sessionArea
                     anchors.fill: parent
                     anchors.margins: -12 * root.unit
                     enabled: sessions.count > 1
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: root.sessionIndex = (root.sessionIndex + 1) % sessions.count
+                    onTriggered: root.sessionIndex = (root.sessionIndex + 1) % sessions.count
                 }
             }
 
@@ -388,20 +382,27 @@ Rectangle {
         spacing: 4 * root.unit
 
         Text {
+            id: caption
             anchors.verticalCenter: parent.verticalCenter
             text: orrery.caption.toUpperCase()
-            color: captionArea.containsMouse ? root.ink : root.muted
+            color: captionArea.lit ? root.ink : root.muted
             font.family: root.labelFont
             font.pixelSize: 12 * root.unit
             font.letterSpacing: 1.44 * root.unit
 
-            MouseArea {
+            Rectangle {
+                visible: captionArea.activeFocus
+                y: parent.baselineOffset + 5 * root.unit
+                width: parent.width
+                height: 1
+                color: root.ink
+            }
+
+            HitArea {
                 id: captionArea
                 anchors.fill: parent
                 anchors.margins: -12 * root.unit
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: orrery.standOnNext()
+                onTriggered: orrery.standOnNext()
             }
         }
 
@@ -409,7 +410,7 @@ Rectangle {
             width: 44 * root.unit
             height: 44 * root.unit
 
-            readonly property color tone: playArea.containsMouse ? root.ink : root.faint
+            readonly property color tone: playArea.lit ? root.ink : root.faint
 
             Row {
                 visible: orrery.playing
@@ -442,13 +443,20 @@ Rectangle {
                 }
             }
 
-            MouseArea {
+            Rectangle {
+                visible: playArea.activeFocus
+                x: (parent.width - width) / 2
+                y: caption.y - parent.y + caption.baselineOffset + 5 * root.unit
+                width: 12 * root.unit
+                height: 1
+                color: root.ink
+            }
+
+            HitArea {
                 id: playArea
                 anchors.fill: parent
                 enabled: !orrery.intro
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: orrery.playing = !orrery.playing
+                onTriggered: orrery.playing = !orrery.playing
             }
         }
     }

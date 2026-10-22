@@ -17,6 +17,8 @@ blurred.
 - Click a planet outside the strip, or the caption in the bottom-right corner,
   to see the others from it.
 - The play button runs time forward from today; the caption's date follows.
+- Tab moves through the form, the power buttons, the session switch, the
+  caption and the play button; Space or Return presses the one in focus.
 
 | Seen from Mars | Seen from the Sun | Seen from Venus |
 | --- | --- | --- |

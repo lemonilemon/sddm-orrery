@@ -10,7 +10,7 @@ Item {
     property color ink
     property color muted
     property string labelFont
-    readonly property color tone: area.containsMouse ? ink : muted
+    readonly property color tone: area.lit ? ink : muted
 
     signal clicked
 
@@ -47,11 +47,18 @@ Item {
         font.letterSpacing: 1.1 * button.unit
     }
 
-    MouseArea {
+    Rectangle {
+        visible: area.activeFocus
+        x: (button.width - width) / 2
+        y: caption.y + caption.baselineOffset + 5 * button.unit
+        width: caption.contentWidth
+        height: 1
+        color: button.ink
+    }
+
+    HitArea {
         id: area
         anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        onClicked: button.clicked()
+        onTriggered: button.clicked()
     }
 }

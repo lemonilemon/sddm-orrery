@@ -17,6 +17,7 @@ FocusScope {
     signal accepted
 
     implicitHeight: 44 * unit
+    activeFocusOnTab: true
 
     MouseArea {
         anchors.fill: parent
