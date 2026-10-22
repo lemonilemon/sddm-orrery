@@ -1,6 +1,6 @@
 # Orrery
 
-![Orrery on a 1920×1080 screen, seen from Earth](screenshots/earth.png)
+https://github.com/user-attachments/assets/c8f25979-4ede-4a9e-a1e1-bc2fcbd687a7
 
 An SDDM theme in the style of [lemonilemon.csie.org](https://lemonilemon.csie.org/)'s
 night page: the same star field, and the inner planets seen from Earth. The
@@ -22,7 +22,7 @@ blurred.
 
 | Seen from Mars | Seen from the Sun | Seen from Venus |
 | --- | --- | --- |
-| ![Seen from Mars](screenshots/mars.png) | ![Seen from the Sun](screenshots/sun.png) | ![Seen from Venus](screenshots/venus.png) |
+| ![The planets moving with time running, seen from Mars](https://github.com/user-attachments/assets/547a164e-b168-46b5-b00c-244cf3bc37cd) | ![The planets moving with time running, seen from the Sun](https://github.com/user-attachments/assets/b054286c-7803-478b-b1cf-a0f025bc859b) | ![The planets moving with time running, seen from Venus](https://github.com/user-attachments/assets/b19c0c7d-9af0-47e5-81c8-c37f4e8c92ca) |
 
 Needs SDDM with Qt 6.6 or later. Text is set in IBM Plex Sans and IBM Plex
 Mono; the package checks at build time that both families are in the font
