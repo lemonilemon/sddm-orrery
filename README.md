@@ -8,7 +8,7 @@ planets sit where they really are on the day you log in, from J2000 mean orbital
 elements (good to a few degrees). On load the last five years of their paths
 draw in and stop on today.
 
-![The intro: five years of paths drawing in](screenshots/intro.gif)
+![The intro: five years of paths drawing in](https://github.com/user-attachments/assets/7ea89eb4-5001-4138-aaad-a61dfe8c4a41)
 
 The layout follows [sddm-astronaut-theme](https://github.com/Keyitdev/sddm-astronaut-theme):
 a centred strip holds the clock and the form, and the orrery shows through it
