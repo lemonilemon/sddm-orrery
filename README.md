@@ -25,8 +25,9 @@ blurred.
 | ![The planets moving with time running, seen from Mars](https://github.com/user-attachments/assets/547a164e-b168-46b5-b00c-244cf3bc37cd) | ![The planets moving with time running, seen from the Sun](https://github.com/user-attachments/assets/b054286c-7803-478b-b1cf-a0f025bc859b) | ![The planets moving with time running, seen from Venus](https://github.com/user-attachments/assets/b19c0c7d-9af0-47e5-81c8-c37f4e8c92ca) |
 
 Needs SDDM with Qt 6.6 or later. Text is set in IBM Plex Sans and IBM Plex
-Mono; the package checks at build time that both families are in the font
-package it ships with.
+Mono. The greeter only sees system fonts, so the theme loads the three faces it
+uses from its own `fonts/` directory; the package puts them there and checks at
+build time that they are those families.
 
 ## NixOS
 
@@ -45,15 +46,13 @@ let
   };
 in
 {
-  services.displayManager.sddm.theme = "orrery";
-  environment.systemPackages = [ orrery ];
-  fonts.packages = [ orrery.fonts ];
+  services.displayManager.sddm.theme = "${orrery}/share/sddm/themes/orrery";
 }
 ```
 
-The greeter runs as the `sddm` user and only sees system fonts, so
-`fonts.packages` is not optional: without it the text falls back to another
-face silently.
+SDDM takes a path for the theme, and the theme carries its own fonts, so this
+is the whole setup: nothing goes in `environment.systemPackages` or
+`fonts.packages`.
 
 ## Other distributions
 
@@ -70,7 +69,9 @@ ShowAllPowerButtons="false"
 
 Keep the quotes: SDDM reads an unquoted value with a comma in it as a list.
 
-Install IBM Plex Sans and IBM Plex Mono system-wide, then select the theme:
+Put `IBMPlexSans-Regular.otf`, `IBMPlexSans-Medium.otf` and
+`IBMPlexMono-Regular.otf` from [IBM Plex](https://github.com/IBM/plex) in a
+`fonts` directory next to `Main.qml`, then select the theme:
 
 ```ini
 # /etc/sddm.conf.d/theme.conf

@@ -1,6 +1,7 @@
 {
   writeShellApplication,
   makeFontsConf,
+  dejavu_fonts,
   sway,
   grim,
   util-linux,
@@ -9,7 +10,8 @@
   theme,
 }:
 let
-  fontsConf = makeFontsConf { fontDirectories = [ theme.fonts ]; };
+  # Like the real greeter's, this fontconfig has no Plex: the theme has to bring its own.
+  fontsConf = makeFontsConf { fontDirectories = [ dejavu_fonts ]; };
 in
 writeShellApplication {
   name = "orrery-preview";

@@ -32,6 +32,10 @@ Rectangle {
     height: 1080
     color: "#0e1014"
 
+    FontLoader { source: "fonts/IBMPlexSans-Regular.otf" }
+    FontLoader { source: "fonts/IBMPlexSans-Medium.otf" }
+    FontLoader { source: "fonts/IBMPlexMono-Regular.otf" }
+
     Component.onCompleted: passwordField.forceActiveFocus()
 
     Connections {

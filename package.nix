@@ -49,20 +49,24 @@ stdenvNoCC.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
+  # The greeter only sees system fonts, so Main.qml loads these faces from fonts/ itself.
   # Qt falls back to another face without a word when a family name misses.
   installPhase = ''
     runHook preInstall
 
-    found=$(fc-scan --format '%{family}\n' ${fonts}/share/fonts | tr , '\n')
-    for family in ${lib.escapeShellArgs (lib.attrValues families)}; do
-      grep -qxF "$family" <<< "$found" \
-        || { echo "font family '$family' is not in ${fonts}" >&2; exit 1; }
-    done
-
     dir=$out/share/sddm/themes/orrery
-    mkdir -p $dir
+    mkdir -p $dir/fonts
     cp -r . $dir
     cp ${themeConf} $dir/theme.conf
+    for face in IBMPlexSans-Regular IBMPlexSans-Medium IBMPlexMono-Regular; do
+      cp ${fonts}/share/fonts/opentype/$face.otf $dir/fonts/
+    done
+
+    found=$(fc-scan --format '%{family}\n' $dir/fonts | tr , '\n')
+    for family in ${lib.escapeShellArgs (lib.attrValues families)}; do
+      grep -qxF "$family" <<< "$found" \
+        || { echo "font family '$family' is not in $dir/fonts" >&2; exit 1; }
+    done
 
     runHook postInstall
   '';
@@ -72,7 +76,10 @@ stdenvNoCC.mkDerivation {
   meta = {
     description = "SDDM theme: the inner planets at their real positions, seen from Earth";
     homepage = "https://github.com/lemonilemon/sddm-orrery";
-    license = lib.licenses.mit;
+    license = [
+      lib.licenses.mit
+      lib.licenses.ofl
+    ];
     platforms = lib.platforms.linux;
   };
 }
