@@ -21,7 +21,14 @@ let
     LabelFont = "IBM Plex Mono";
   };
 
-  themeConf = (formats.ini { }).generate "theme.conf" {
+  # SDDM reads theme.conf with QSettings, which splits an unquoted value at its commas.
+  ini = formats.ini {
+    mkKeyValue = lib.generators.mkKeyValueDefault {
+      mkValueString = v: "\"${lib.escape [ "\\" "\"" ] v}\"";
+    } "=";
+  };
+
+  themeConf = ini.generate "theme.conf" {
     General =
       families
       // {

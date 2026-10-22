@@ -60,11 +60,13 @@ Copy `theme/` to `/usr/share/sddm/themes/orrery`. The Nix package generates
 
 ```ini
 [General]
-Font=IBM Plex Sans
-LabelFont=IBM Plex Mono
-OsLabel=
-ShowAllPowerButtons=false
+Font="IBM Plex Sans"
+LabelFont="IBM Plex Mono"
+OsLabel=""
+ShowAllPowerButtons="false"
 ```
+
+Keep the quotes: SDDM reads an unquoted value with a comma in it as a list.
 
 Install IBM Plex Sans and IBM Plex Mono system-wide, then select the theme:
 
