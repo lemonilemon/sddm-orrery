@@ -31,7 +31,7 @@ Item {
     readonly property var sparkScale: ({ sun: 2.6, venus: 1.4, earth: 1.5, mars: 1.4 })
     readonly property var names: ({ sun: "the Sun", venus: "Venus", earth: "Earth", mars: "Mars" })
     readonly property string caption: "Seen from " + names[to] + " · "
-        + Ephemeris.dateAt(t).toLocaleDateString(Qt.locale("en_US"), "d MMM yyyy")
+        + Ephemeris.dateAt(t).toLocaleDateString(Qt.locale("en_US"), "dd MMM yyyy")
 
     property double lastTick: 0
 
