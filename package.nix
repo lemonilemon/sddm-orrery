@@ -10,6 +10,7 @@
   twelveHourClock ? false,
   viewpoint ? "earth",
   intro ? true,
+  introStart ? null,
 }:
 let
   fonts = ibm-plex.override {
@@ -41,8 +42,11 @@ let
         Viewpoint = viewpoint;
         Intro = lib.boolToString intro;
       }
-      // lib.optionalAttrs (hostLabel != null) { HostLabel = hostLabel; };
+      // lib.optionalAttrs (hostLabel != null) { HostLabel = hostLabel; }
+      // lib.optionalAttrs (introStart != null) { IntroStart = introStart; };
   };
+
+  isoDateTime = "[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}(:[0-9]{2}([.][0-9]+)?)?(Z|[+-][0-9]{2}:[0-9]{2})?)?";
 in
 assert lib.assertOneOf "viewpoint" viewpoint [
   "sun"
@@ -50,6 +54,9 @@ assert lib.assertOneOf "viewpoint" viewpoint [
   "earth"
   "mars"
 ];
+assert lib.assertMsg (
+  introStart == null || builtins.match isoDateTime introStart != null
+) "introStart must be an ISO 8601 date-time such as \"1970-01-01T00:00:00Z\"";
 stdenvNoCC.mkDerivation {
   pname = "sddm-theme-orrery";
   version = "0.1.0";

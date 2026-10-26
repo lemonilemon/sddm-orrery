@@ -98,6 +98,7 @@ under the key in the second column.
 | `twelveHourClock` | `TwelveHourClock` | `false` | Show the clock as 2:04 with AM or PM beside it instead of 02:04 |
 | `viewpoint` | `Viewpoint` | `"earth"` | Body the orrery is seen from at login: `"sun"`, `"venus"`, `"earth"` or `"mars"` |
 | `intro` | `Intro` | `true` | Draw the last five years of paths in on load; `false` shows them already drawn |
+| `introStart` | `IntroStart` | `null` | Moment the intro starts from, as an ISO 8601 date-time such as `"1970-01-01T00:00:00Z"`; `null` leaves the key out and starts five years before today. The paths stay five years long, and the intro runs at two years a second, so 1970 takes about half a minute |
 
 ## Preview
 

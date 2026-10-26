@@ -12,9 +12,14 @@ Item {
     property string viewpoint: "earth"
 
     readonly property real today: Ephemeris.yearsSinceJ2000(new Date())
-    property real t: intro ? today - 5 : today
+    readonly property real introFrom: {
+        const ms = Date.parse(introStart);
+        return isNaN(ms) ? today - 5 : Ephemeris.yearsSinceJ2000(new Date(ms));
+    }
+    property real t: intro ? introFrom : today
     property real span: intro ? 0 : 5
     property bool intro: true
+    property string introStart: ""
     property bool playing: false
     property string from: start
     property string to: start
@@ -56,10 +61,8 @@ Item {
         if (intro) {
             t = Math.min(today, t + 2 * dt);
             span = Math.min(5, span + 2 * dt);
-            if (t >= today) {
-                span = 5;
+            if (t >= today && span >= 5)
                 intro = false;
-            }
         } else if (playing) {
             t += 0.22 * dt;
         }

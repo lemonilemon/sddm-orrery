@@ -92,6 +92,7 @@ Rectangle {
             auPixels: 210 * root.unit
             viewpoint: config.Viewpoint || "earth"
             intro: String(config.Intro) !== "false"
+            introStart: config.IntroStart || ""
         }
     }
 
